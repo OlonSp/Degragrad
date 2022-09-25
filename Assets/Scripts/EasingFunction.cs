@@ -83,6 +83,7 @@ public static class EasingFunction
         EaseOutCirc,
         EaseInOutCirc,
         Linear,
+        ParabolaBack,
         Spring,
         EaseInBounce,
         EaseOutBounce,
@@ -104,6 +105,11 @@ public static class EasingFunction
     public static float Linear(float start, float end, float value)
     {
         return Mathf.Lerp(start, end, value);
+    }
+    
+    public static float ParabolaBack(float start, float end, float value)
+    {
+        return -2 * (value * value) + 2 * value;
     }
 
     public static float Spring(float start, float end, float value)
@@ -931,6 +937,11 @@ public static class EasingFunction
             return EaseInOutElastic;
         }
 
+        if (easingFunction == Ease.ParabolaBack)
+        {
+            return ParabolaBack;
+        }
+
         return null;
     }
 
@@ -942,6 +953,11 @@ public static class EasingFunction
     /// <returns>The derivative function</returns>
     public static Function GetEasingFunctionDerivative(Ease easingFunction)
     {
+        if (easingFunction == Ease.ParabolaBack)
+        {
+            return ParabolaBack;
+        }
+
         if (easingFunction == Ease.EaseInQuad)
         {
             return EaseInQuadD;
