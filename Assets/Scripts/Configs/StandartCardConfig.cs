@@ -21,7 +21,7 @@ public class StandartCardConfig : CardInfo
         Debug.Log("Left Parametrs change");
         foreach(var i in _leftParametrsToChange)
         {
-            ControllerUI.inst.coeffManager.ChangeValue(i.key, -i.value);
+            ControllerUI.inst.coeffManager.ChangeValue(i.key, i.value);
         }
 
     }
@@ -32,7 +32,7 @@ public class StandartCardConfig : CardInfo
 
         foreach (var i in _rightParametrsToChange)
         {
-            ControllerUI.inst.coeffManager.ChangeValue(i.key, -i.value);
+            ControllerUI.inst.coeffManager.ChangeValue(i.key, i.value);
         }
     }
 }
