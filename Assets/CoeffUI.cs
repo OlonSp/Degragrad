@@ -13,10 +13,14 @@ public class CoeffUI : MonoBehaviour
     private Color minusColor = new Color(1, 0.3787588f, 0.3725491f);
     private Color plusColor = new Color(0.3726415f, 1, 0.3926642f);
 
+    public void ChangePercents(float delta)
+    {
+        SetPercents(percents + delta);
+    }
 
     public void SetPercents(float prs)
     {
-        percents = prs;
+        percents = Mathf.Clamp(prs, 0, 100);
         currentPercents = imageFill.fillAmount;
         time = 0;
     }

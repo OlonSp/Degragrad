@@ -25,7 +25,7 @@ public class CoefficientsManagerUI : MonoBehaviour
 
     public void ChangeValue(string key, float delta)
     {
-        coeffs[key].percents -= delta;
+        coeffs[key].ChangePercents(delta);
     }
 
     public IEnumerator PreviewCoeffs()
