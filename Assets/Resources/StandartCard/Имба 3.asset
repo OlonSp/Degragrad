@@ -18,5 +18,9 @@ MonoBehaviour:
   _description: "\u0425\u0420\u0435\u043D\u044C \u0442\u044B"
   _leftText: "\u0414\u0430"
   _rightText: "\u041D\u0435\u0442"
-  _parametersToChange: []
-  _cofChange: 
+  _leftParametrsToChange:
+  - key: imba
+    value: 15
+  _rightParametrsToChange:
+  - key: money
+    value: -20

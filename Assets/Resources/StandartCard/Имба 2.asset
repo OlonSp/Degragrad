@@ -18,5 +18,7 @@ MonoBehaviour:
   _description: "\u043A\u0430\u0432\u0430\u0431\u0430\u043D\u0433\u0430"
   _leftText: "\u0414\u0430"
   _rightText: "\u041D\u0435\u0442"
-  _parametersToChange: []
-  _cofChange: 
+  parametersToChange:
+  - goblin
+  cofChange:
+  - -20

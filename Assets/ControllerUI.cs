@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ControllerUI : MonoBehaviour
 {
     public CardManagerUI cardManagerUI;
+    public CoefficientsManagerUI coeffManager;
     public RectTransform backgroundImage;
     public GameObject wideBackImg;
     public static Vector2 scaleMultiplyer = new Vector2(1, 1);
