@@ -26,6 +26,7 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     public float returnSmoothTime = 0.3F;
     public float skipSmoothTime = 0.3F;
     private Vector2 velocity = Vector2.zero;
+    private Vector3 velocity3 = Vector3.zero;
     public CardStates state = CardStates.Hided;
 
     public CardInfo cardInfo;
@@ -87,6 +88,8 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
                 rect.anchoredPosition -= mousePos;
                 break;
             case CardStates.Hided:
+                rect.anchoredPosition3D = Vector3.SmoothDamp(rect.anchoredPosition3D, Vector3.zero, ref velocity3, returnSmoothTime);
+                break;
             case CardStates.Return:
                 rect.anchoredPosition = Vector2.SmoothDamp(rect.anchoredPosition, Vector2.zero, ref velocity, returnSmoothTime);
                 break;

@@ -16,28 +16,52 @@ public class CardManagerUI : MonoBehaviour
     [SerializeField] private Text DescriptionText;
     
 
+    public Transform cardSpawnPoint;
     public GameObject cardPrefab;
+    public GameObject fakeCard;
     private CardUI activeCard;
     public CardInfo[] cards;
     private List<CardInfo> queue = new List<CardInfo>();
+    private List<CardUI> spawnedCards = new List<CardUI>();
 
     void Start()
     {
+        StartCoroutine(CreateStartQueue());
+    }
+
+    public IEnumerator CreateStartQueue()
+    {
+        SetQueue();
+        for (int i = 0;i<queue.Count;i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            CreateCard(true);
+        }
+        yield return new WaitForSeconds(1);
+        fakeCard.SetActive(true);
         CreateCard();
     }
 
-    public void CreateCard()
+    public void CreateCard(bool isSpawnOutScreen = false)
     {
+        if (spawnedCards.Count > 0 && !isSpawnOutScreen)
+        {
+            spawnedCards[0].ShowCard();
+            DescriptionText.text = spawnedCards[0].cardInfo.description;
+            spawnedCards.RemoveAt(0);
+            return;
+        }
         if (queue.Count == 0) SetQueue();
         CardUI newCard = Instantiate(cardPrefab, transform).GetComponent<CardUI>();
+        if (isSpawnOutScreen) newCard.transform.position = cardSpawnPoint.position;
         newCard.mainImage.sprite = queue[0].Image;
         DescriptionText.text = queue[0].description;
         newCard.GetComponent<CardUI>().rightText.text = queue[0].leftText;
         newCard.GetComponent<CardUI>().leftText.text = queue[0].rightText;
         newCard.GetComponent<CardUI>().cardInfo = queue[0];
-
+        if (isSpawnOutScreen) spawnedCards.Add(newCard);
         queue.RemoveAt(0);
-        newCard.ShowCard();
+        if (!isSpawnOutScreen) newCard.ShowCard();
     }
 
     public void SetQueue()

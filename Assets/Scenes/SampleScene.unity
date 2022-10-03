@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &71521057 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3954541917089774095, guid: 34144612391a76f4fb789cd50cc5414e, type: 3}
+  m_PrefabInstance: {fileID: 1460862770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &268683114
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,8 +329,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DescriptionText: {fileID: 1465314187}
+  cardSpawnPoint: {fileID: 1722916049}
   cardPrefab: {fileID: 3954541917089774095, guid: 34144612391a76f4fb789cd50cc5414e, type: 3}
+  fakeCard: {fileID: 71521057}
   cards:
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
+  - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
   - {fileID: 11400000, guid: c8da862f19ec816499f366b002376c4d, type: 2}
 --- !u!1 &489053495
 GameObject:
@@ -1411,7 +1432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954541917089774095, guid: 34144612391a76f4fb789cd50cc5414e, type: 3}
       propertyPath: m_Name
-      value: Card
+      value: CardFake
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954541917089774095, guid: 34144612391a76f4fb789cd50cc5414e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3954541917089774095, guid: 34144612391a76f4fb789cd50cc5414e, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1670,6 +1695,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702365760}
   m_CullTransparentMesh: 1
+--- !u!1 &1722916048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1722916049}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1722916049
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722916048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2019334363}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -132.84999, y: 195.025}
+  m_SizeDelta: {x: 265.7, y: 390.05}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1862033360
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2142,7 @@ RectTransform:
   - {fileID: 1109252448}
   - {fileID: 1702365761}
   - {fileID: 465608088}
+  - {fileID: 1722916049}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
