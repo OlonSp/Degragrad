@@ -29,6 +29,9 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     private Vector3 velocity3 = Vector3.zero;
     public CardStates state = CardStates.Hided;
 
+    public Vector3 cardStartCenter;
+    public Vector3 cardShowCenter;
+
     public CardInfo cardInfo;
 
     private void UpdateState()
@@ -36,16 +39,17 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         //Vector2 absScreenPosition = new Vector2(rect.anchoredPosition.x + rect.rect.width, 0);
         //print(absScreenPosition);
         if (state == CardStates.Hided) return;
-        
+        Vector3 delta = rect.anchoredPosition3D - cardShowCenter;
         if (isDragging)
         {
             state = CardStates.Dragging;
         }
-        else if (Mathf.Abs(rect.anchoredPosition.x) < ControllerUI.rect.x / 4)
+        
+        else if (Mathf.Abs(delta.x) < ControllerUI.rect.x / 4)
         {
-            if (Vector2.Distance(rect.anchoredPosition, Vector2.zero) < 0.1f)
+            if (Vector3.Distance(rect.anchoredPosition3D, cardShowCenter) < 0.1f)
             {
-                rect.anchoredPosition = Vector2.zero;
+                rect.anchoredPosition3D = cardShowCenter;
                 state = CardStates.Default;
                 return;
             }
@@ -53,7 +57,7 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         }
         else
         {
-            if (rect.anchoredPosition.x < 0)
+            if (delta.x < 0)
             {
                 state = CardStates.SkipLeft;
             }
@@ -72,7 +76,8 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void ShowCard()
     {
-        rect.anchoredPosition = Vector2.zero;
+        //rect.anchoredPosition = Vector2.zero;
+        rect.anchoredPosition3D = cardStartCenter;
         cardActive = true;
         anim.enabled = true;
         anim.Rebind();
@@ -87,12 +92,16 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             case CardStates.Dragging:
                 rect.anchoredPosition -= mousePos;
                 break;
-            case CardStates.Hided:
-                rect.anchoredPosition3D = Vector3.SmoothDamp(rect.anchoredPosition3D, Vector3.zero, ref velocity3, returnSmoothTime);
-                break;
             case CardStates.Return:
-                rect.anchoredPosition = Vector2.SmoothDamp(rect.anchoredPosition, Vector2.zero, ref velocity, returnSmoothTime);
+                Vector3 newPosition = Vector2.SmoothDamp(rect.anchoredPosition3D, cardShowCenter, ref velocity, returnSmoothTime);
+                rect.anchoredPosition3D = new Vector3(newPosition.x, newPosition.y, cardShowCenter.z);
                 break;
+            case CardStates.Hided:
+                rect.anchoredPosition3D = Vector3.SmoothDamp(rect.anchoredPosition3D, cardStartCenter, ref velocity3, returnSmoothTime);
+                break;
+            //case CardStates.Return:
+            //    rect.anchoredPosition = Vector2.SmoothDamp(rect.anchoredPosition, Vector2.zero, ref velocity, returnSmoothTime);
+            //    break;
             case CardStates.SkipRight:
                 rect.anchoredPosition = Vector2.SmoothDamp(rect.anchoredPosition, new Vector2(Screen.width / 2 + rect.rect.width, rect.anchoredPosition.y), ref velocity, skipSmoothTime);
                 break;
@@ -127,7 +136,7 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             {
                 cardInfo.RightChoose();
             }
-
+            ModelController.ChangeMonths(Random.Range(1, 4));
             ControllerUI.inst.cardManagerUI.CreateCard();
             Destroy(gameObject);
         }

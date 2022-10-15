@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: "\u0433\u0430\u043D\u0441_1"
   _Image: {fileID: 21300000, guid: 0b0fd1290bc28384da37d8e8f818febc, type: 3}
-  canBeSpawn: 1
+  canBeSpawn: 0
   _description: "\u0422\u044B \u0437\u043D\u0430\u0435\u0448\u044C \u043C\u0430\u0442\u0435\u0448\u0443"
   _leftText: "\u0414\u0410"
   _rightText: "\u043D\u0435\u0442"

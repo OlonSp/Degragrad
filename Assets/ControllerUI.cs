@@ -7,6 +7,8 @@ public class ControllerUI : MonoBehaviour
 {
     public CardManagerUI cardManagerUI;
     public CoefficientsManagerUI coeffManager;
+    public BottomMenuUI bottomMenu;
+    public ScrollBlockUI scrollBlockUI;
     public RectTransform backgroundImage;
     public GameObject wideBackImg;
     public static Vector2 scaleMultiplyer = new Vector2(1, 1);

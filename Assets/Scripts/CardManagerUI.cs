@@ -17,6 +17,8 @@ public class CardManagerUI : MonoBehaviour
     
 
     public Transform cardSpawnPoint;
+    public Transform cardStartCenterPoint;
+    public Transform cardShowCenterPoint;
     public GameObject cardPrefab;
     public GameObject fakeCard;
     private CardUI activeCard;
@@ -47,7 +49,7 @@ public class CardManagerUI : MonoBehaviour
         if (spawnedCards.Count > 0 && !isSpawnOutScreen)
         {
             spawnedCards[0].ShowCard();
-            DescriptionText.text = spawnedCards[0].cardInfo.description;
+            ControllerUI.inst.scrollBlockUI.SetText(spawnedCards[0].cardInfo.description);
             spawnedCards.RemoveAt(0);
             return;
         }
@@ -55,13 +57,18 @@ public class CardManagerUI : MonoBehaviour
         CardUI newCard = Instantiate(cardPrefab, transform).GetComponent<CardUI>();
         if (isSpawnOutScreen) newCard.transform.position = cardSpawnPoint.position;
         newCard.mainImage.sprite = queue[0].Image;
-        DescriptionText.text = queue[0].description;
+        newCard.cardStartCenter = cardStartCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
+        newCard.cardShowCenter = cardShowCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
         newCard.GetComponent<CardUI>().rightText.text = queue[0].leftText;
         newCard.GetComponent<CardUI>().leftText.text = queue[0].rightText;
         newCard.GetComponent<CardUI>().cardInfo = queue[0];
         if (isSpawnOutScreen) spawnedCards.Add(newCard);
         queue.RemoveAt(0);
-        if (!isSpawnOutScreen) newCard.ShowCard();
+        if (!isSpawnOutScreen)
+        {
+            newCard.ShowCard();
+            ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
+        }
     }
 
     public void SetQueue()

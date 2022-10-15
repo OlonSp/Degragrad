@@ -238,7 +238,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3954541917089774095}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -3.974}
+  m_LocalPosition: {x: 0, y: 0, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3954541917243393241}
@@ -250,7 +250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -99}
   m_SizeDelta: {x: 265.236, y: 389.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!65 &3954541917089774580
@@ -290,6 +290,9 @@ MonoBehaviour:
   returnSmoothTime: 0.3
   skipSmoothTime: 0.2
   state: 5
+  cardStartCenter: {x: 0, y: 0, z: 0}
+  cardShowCenter: {x: 0, y: 0, z: 0}
+  cardInfo: {fileID: 0}
 --- !u!222 &3954541917089774091
 CanvasRenderer:
   m_ObjectHideFlags: 0
