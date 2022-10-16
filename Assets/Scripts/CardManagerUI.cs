@@ -37,6 +37,7 @@ public class CardManagerUI : MonoBehaviour
         for (int i = 0;i<queue.Count;i++)
         {
             yield return new WaitForSeconds(0.1f);
+            SoundManagerController.inst.PlaySound("showCard");
             CreateCard(true);
         }
         yield return new WaitForSeconds(1);

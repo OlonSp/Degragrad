@@ -29,8 +29,11 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     private Vector3 velocity3 = Vector3.zero;
     public CardStates state = CardStates.Hided;
 
+    private bool isPlayStartSound;
+
     public Vector3 cardStartCenter;
     public Vector3 cardShowCenter;
+    public float dist = 0;
 
     public CardInfo cardInfo;
 
@@ -38,6 +41,12 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     {
         //Vector2 absScreenPosition = new Vector2(rect.anchoredPosition.x + rect.rect.width, 0);
         //print(absScreenPosition);
+        dist = Vector2.Distance(rect.anchoredPosition, cardStartCenter);
+        if (Vector2.Distance(rect.anchoredPosition, cardStartCenter) < 80 && state == CardStates.Hided && !isPlayStartSound)
+        {
+            isPlayStartSound = true;
+            //SoundManagerController.inst.PlaySound("showCard");
+        }
         if (state == CardStates.Hided) return;
         Vector3 delta = rect.anchoredPosition3D - cardShowCenter;
         if (isDragging)
@@ -136,7 +145,8 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             {
                 cardInfo.RightChoose();
             }
-            ModelController.ChangeMonths(Random.Range(1, 4));
+            SoundManagerController.inst.PlaySound("cardSkip");
+            ModelController.ChangeMonths(1);
             ControllerUI.inst.cardManagerUI.CreateCard();
             Destroy(gameObject);
         }

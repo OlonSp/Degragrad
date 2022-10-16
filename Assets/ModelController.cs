@@ -11,11 +11,7 @@ public class ModelController : MonoBehaviour
     public static void ChangeMonths(int delta)
     {
         monthsCount += delta;
-        if (monthsCount >= 12)
-        {
-            monthsCount = 0;
-            yearsCount += 1;
-        }
+        yearsCount = monthsCount / 12;
         ControllerUI.inst.bottomMenu.yearCounter.SetNumber((yearsCount + startYear).ToString());
         ControllerUI.inst.bottomMenu.SetMonths(monthsCount);
     }
