@@ -5,14 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCard", menuName = "Create Card/ Line Quest card", order = 51)]
 public class LIneQuestCard : CardInfo
 {
-    [SerializeField] private CardInfo _nextCard;
+    [Header("Ќазвание следующих карточек в цепочке событий")]
+    [SerializeField] private string _nameOfNextCardOnLeft;
+    [SerializeField] private string _nameOfNextCardOnRigth;
 
     public override void LeftChoose()
     {
-        if(_nextCard != null)
+        if (_nameOfNextCardOnLeft != "")
         {
-            this.canBeSpawn = false;
-            _nextCard.canBeSpawn = true;
+            
+            var allCard = Resources.LoadAll<CardInfo>(path: "");
+            foreach(var card in allCard)
+            {
+                if (card.name == _nameOfNextCardOnLeft)
+                {
+                    card.canBeSpawn = true;
+                    this.canBeSpawn = false;
+                }
+                
+            }
             
         }
         
@@ -20,7 +31,21 @@ public class LIneQuestCard : CardInfo
 
     public override void RightChoose()
     {
-        Debug.Log("Rigth Parametrs change");
+        if (_nameOfNextCardOnRigth != "")
+        {
+            
+            var allCard = Resources.LoadAll<CardInfo>(path: "");
+            foreach (var card in allCard)
+            {
+                if (card.name == _nameOfNextCardOnRigth)
+                {
+                    this.canBeSpawn = false;
+                    card.canBeSpawn = true;
+                }
+                    
+            }
+
+        }
     }
 }
 
