@@ -18,4 +18,5 @@ MonoBehaviour:
   _description: 2+2
   _leftText: 4
   _rightText: 5
-  _nextCard: {fileID: 11400000, guid: ad387fef1d2b31a41a2d968f4b749633, type: 2}
+  _nameOfNextCardOnLeft: 
+  _nameOfNextCardOnRigth: 

@@ -10,17 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92260b90c5a075d40934498d890f1534, type: 3}
-  m_Name: "\u0418\u043C\u0431\u0430 2"
+  m_Name: "\u041F\u0430\u0434\u043F\u0435\u0449\u0438\u043A 1"
   m_EditorClassIdentifier: 
-  _id: "\u0438\u043C\u0431\u0430_2"
-  _Image: {fileID: 21300000, guid: f776638737126584e9f154afcc08db74, type: 3}
+  _id: "\u043F\u0430\u0434\u043F\u0435\u0449\u0438\u043A_1"
+  _Image: {fileID: 21300000, guid: 9be53a6b9693bef44af04760f3f067c5, type: 3}
   canBeSpawn: 1
-  _description: "\u0417\u0434\u0440\u0430\u0441\u0442\u0435"
-  _leftText: "\u0414\u0410"
-  _rightText: "\u041D\u0435\u0442"
+  _description: "\u0412\u043E\u0436\u0434\u044F, \u0430 \u0432\u044B \u0444..."
+  _leftText: ...
+  _rightText: "\u0411\u0440\u0435\u043D\u044F\u044F\u044F\u044F!!!"
   _leftParametrsToChange:
   - key: key
+    value: -15
+  - key: goblin
     value: 15
   _rightParametrsToChange:
+  - key: key
+    value: 15
   - key: goblin
-    value: -20
+    value: -15
