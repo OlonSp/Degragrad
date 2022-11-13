@@ -76,7 +76,7 @@ public class CardManagerUI : MonoBehaviour
     {
         foreach (CardInfo card in cards)
         {
-            if(card.canBeSpawn == true)
+            if(card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1  || ModelController.monthsCount <= card.timeUntilCanBeSpawn ))
                 queue.Add(card);
         }
         queue.Shuffle();
