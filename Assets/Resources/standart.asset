@@ -20,8 +20,7 @@ MonoBehaviour:
   _leftText: adfasdf
   _rightText: adfadfasd
   _leftParametrsToChange: []
-  _newCardOnLeft:
-  - {fileID: 0}
+  _newCardOnLeft: []
   _changeSpawnL: 0
   _rightParametrsToChange: []
   _newCardOnRight: []

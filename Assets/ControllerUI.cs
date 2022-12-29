@@ -6,14 +6,21 @@ using UnityEngine.UI;
 public class ControllerUI : MonoBehaviour
 {
     public CardManagerUI cardManagerUI;
+    public BlackScreen blackScreen;
     public CoefficientsManagerUI coeffManager;
     public BottomMenuUI bottomMenu;
     public ScrollBlockUI scrollBlockUI;
+    public GameBlockUI gameBlockUI;
     public RectTransform backgroundImage;
-    public GameObject wideBackImg;
+    public RectTransform wideBackImg;
     public static Vector2 scaleMultiplyer = new Vector2(1, 1);
     public static Vector2 rect = new Vector2(375f, 812f);
     private CanvasScaler canvasScaler;
+
+    public Theme[] themes;
+
+    public RuntimePlatform platform;
+    public bool AutoDetectPlatform;
 
     private static ControllerUI instance;
 
@@ -30,6 +37,21 @@ public class ControllerUI : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Application.isEditor)
+        {
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                foreach (CoeffUI cf in coeffManager.coefficients)
+                {
+                    cf.SetPercents(5);
+                }
+
+            }
+        }
+    }
+
     private void Awake()
     {
         inst = this;
@@ -42,9 +64,14 @@ public class ControllerUI : MonoBehaviour
             scaleMultiplyer = new Vector2(Screen.width / 812f, Screen.height / 275f);
         }
         canvasScaler = GetComponent<CanvasScaler>();
-        if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer)
+        if (AutoDetectPlatform) platform = Application.platform;
+        if (platform != RuntimePlatform.Android && platform != RuntimePlatform.IPhonePlayer)
         {
             canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+            wideBackImg.anchorMin = new Vector2(0, 0);
+            wideBackImg.anchorMax = new Vector2(1, 1);
+            wideBackImg.localPosition = Vector3.zero;
+            wideBackImg.sizeDelta = Vector2.zero;
             backgroundImage.anchorMin = new Vector2(0.5f, 0.5f);
             backgroundImage.anchorMax = new Vector2(0.5f, 0.5f);
             Vector2 size = backgroundImage.GetComponent<Image>().sprite.rect.size;
@@ -52,7 +79,18 @@ public class ControllerUI : MonoBehaviour
         }
         else
         {
-            wideBackImg.SetActive(false);
+            //wideBackImg.SetActive(false);
+        }
+    }
+
+    public void SetTheme(string name)
+    {
+        foreach (Theme th in themes)
+        {
+            foreach (GameObject go in th.objects)
+            {
+                go.SetActive(th.name == name);
+            }
         }
     }
 }

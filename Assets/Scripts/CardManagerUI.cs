@@ -26,7 +26,19 @@ public class CardManagerUI : MonoBehaviour
     private List<CardInfo> queue = new List<CardInfo>();
     private List<CardUI> spawnedCards = new List<CardUI>();
 
+    public bool spawnDeath = false;
+
     void Start()
+    {
+        ControllerUI.inst.blackScreen.animEnded += OnDeathScreenShow;
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    public void SpawnCards()
     {
         StartCoroutine(CreateStartQueue());
     }
@@ -45,6 +57,12 @@ public class CardManagerUI : MonoBehaviour
         CreateCard();
     }
 
+    public void OnDeathScreenShow()
+    {
+        //print("DEATHTHEME");
+        ControllerUI.inst.SetTheme("death");
+    }
+
     public void CreateCard(bool isSpawnOutScreen = false)
     {
         if (spawnedCards.Count > 0 && !isSpawnOutScreen)
@@ -54,7 +72,10 @@ public class CardManagerUI : MonoBehaviour
             spawnedCards.RemoveAt(0);
             return;
         }
-        if (queue.Count == 0) SetQueue();
+        if (queue.Count == 0)
+        {
+            SetQueue();
+        }
         CardUI newCard = Instantiate(cardPrefab, transform).GetComponent<CardUI>();
         if (isSpawnOutScreen) newCard.transform.position = cardSpawnPoint.position;
         newCard.mainImage.sprite = queue[0].Image;
@@ -64,11 +85,47 @@ public class CardManagerUI : MonoBehaviour
         newCard.GetComponent<CardUI>().leftText.text = queue[0].rightText;
         newCard.GetComponent<CardUI>().cardInfo = queue[0];
         if (isSpawnOutScreen) spawnedCards.Add(newCard);
+        if (newCard.cardInfo.GetType() == typeof(DeathCard))
+        {
+            ControllerUI.inst.blackScreen.Show();
+        }
         queue.RemoveAt(0);
         if (!isSpawnOutScreen)
         {
-            newCard.ShowCard();
-            ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
+            if (!spawnDeath)
+            {
+                newCard.ShowCard();
+                ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
+            }
+            else
+            {
+                StartCoroutine(ShowCardWithDelay(newCard));
+            }
+        }
+    }
+
+    public IEnumerator ShowCardWithDelay(CardUI newCard)
+    {
+        yield return new WaitForSeconds(0.1f);
+        newCard.ShowCard();
+        ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
+    }
+
+    public void AddCardToQueue(CardInfo newCard)
+    {
+        queue.Insert(0, newCard);
+    }
+
+    public void ClearQueue()
+    {
+        queue.Clear();
+        if (spawnedCards.Count > 1)
+        {
+            for (int i = 0; i < spawnedCards.Count; i++)
+            {
+                Destroy(spawnedCards[i].gameObject);
+            }
+            spawnedCards = new List<CardUI>() { spawnedCards[0] };
         }
     }
 
@@ -79,6 +136,7 @@ public class CardManagerUI : MonoBehaviour
             if(card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1  || ModelController.monthsCount <= card.timeUntilCanBeSpawn ))
                 queue.Add(card);
         }
+        print(queue.Count);
         queue.Shuffle();
     }
 

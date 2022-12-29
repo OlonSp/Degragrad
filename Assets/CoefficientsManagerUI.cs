@@ -26,6 +26,21 @@ public class CoefficientsManagerUI : MonoBehaviour
     public void ChangeValue(string key, float delta)
     {
         coeffs[key].ChangePercents(delta);
+        if (coeffs[key].percents == 0 || coeffs[key].percents == 100)
+        {
+            switch (key)
+            {
+                case "imba":
+                    break;
+                case "goblin":
+                    break;
+                case "key":
+                    break;
+                case "money":
+                    break;
+                
+            }
+        }
     }
 
     public IEnumerator PreviewCoeffs()

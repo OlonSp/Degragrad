@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Created by C.J. Kimberlin
  * 
  * The MIT License (MIT)
@@ -84,6 +84,7 @@ public static class EasingFunction
         EaseInOutCirc,
         Linear,
         ParabolaBack,
+        ShadedOutIn,
         Spring,
         EaseInBounce,
         EaseOutBounce,
@@ -110,6 +111,12 @@ public static class EasingFunction
     public static float ParabolaBack(float start, float end, float value)
     {
         return -2 * (value * value) + 2 * value;
+    }
+
+    public static float ShadedOutIn(float start, float end, float value)
+    {
+        float delta = end - start;
+        return start + (1.6532f * Mathf.Pow(value, 3) - 2.4797f * Mathf.Pow(value, 2) + 1.6974f * value + 0.0646f * delta);
     }
 
     public static float Spring(float start, float end, float value)
@@ -890,6 +897,11 @@ public static class EasingFunction
         if (easingFunction == Ease.Spring)
         {
             return Spring;
+        }
+
+        if (easingFunction == Ease.ShadedOutIn)
+        {
+            return ShadedOutIn;
         }
 
         if (easingFunction == Ease.EaseInBounce)
