@@ -15,4 +15,10 @@ public class ModelController : MonoBehaviour
         ControllerUI.inst.bottomMenu.yearCounter.SetNumber((yearsCount + startYear).ToString());
         ControllerUI.inst.bottomMenu.SetMonths(monthsCount);
     }
+
+    public static void SetDefaults()
+    {
+        monthsCount = 0;
+        yearsCount = 0;
+    }
 }

@@ -10,11 +10,13 @@ public class DeathCard : CardInfo
 
     public override void LeftChoose()
     {
+        ModelController.SetDefaults();
         SceneManager.LoadScene(_indexOfSceneOnLeft);
     }
 
     public override void RightChoose()
     {
+        ModelController.SetDefaults();
         SceneManager.LoadScene(_indexOfSceneOnRigth);
     }
 }

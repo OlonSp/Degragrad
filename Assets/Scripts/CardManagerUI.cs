@@ -25,7 +25,7 @@ public class CardManagerUI : MonoBehaviour
     public CardInfo[] cards;
     private List<CardInfo> queue = new List<CardInfo>();
     private List<CardUI> spawnedCards = new List<CardUI>();
-
+    public int currentCardNum;
     public bool spawnDeath = false;
 
     void Start()
@@ -36,6 +36,22 @@ public class CardManagerUI : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    public void MoveCardToLeft()
+    {
+        if (activeCard != null)
+        {
+            activeCard.MoveToLeft();
+        }
+    }
+
+    public void MoveCardToRight()
+    {
+        if (activeCard != null)
+        {
+            activeCard.MoveToRight();
+        }
     }
 
     public void SpawnCards()
@@ -67,7 +83,9 @@ public class CardManagerUI : MonoBehaviour
     {
         if (spawnedCards.Count > 0 && !isSpawnOutScreen)
         {
+            currentCardNum += 1;
             spawnedCards[0].ShowCard();
+            activeCard = spawnedCards[0];
             ControllerUI.inst.scrollBlockUI.SetText(spawnedCards[0].cardInfo.description);
             spawnedCards.RemoveAt(0);
             return;
@@ -94,7 +112,9 @@ public class CardManagerUI : MonoBehaviour
         {
             if (!spawnDeath)
             {
+                activeCard = newCard;
                 newCard.ShowCard();
+                currentCardNum += 1;
                 ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
             }
             else
@@ -140,6 +160,7 @@ public class CardManagerUI : MonoBehaviour
         queue.Shuffle();
     }
 
+    
     //public void ShowCard()
     //{
     //    if (cards.Count == 1)

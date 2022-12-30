@@ -77,6 +77,16 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         }
     }
 
+    public void MoveToLeft()
+    {
+        rect.anchoredPosition3D += new Vector3(cardShowCenter.x - (ControllerUI.rect.x / 2) - 10, 0, 0);
+    }
+
+    public void MoveToRight()
+    {
+        rect.anchoredPosition3D += new Vector3(cardShowCenter.x + (ControllerUI.rect.x / 2) - 10, 0, 0);
+    }
+
     public void OnShowAnimEnded()
     {
         anim.enabled = false;

@@ -13,9 +13,11 @@ public class ControllerUI : MonoBehaviour
     public GameBlockUI gameBlockUI;
     public RectTransform backgroundImage;
     public RectTransform wideBackImg;
+    public DebugScreen debugScreen;
     public static Vector2 scaleMultiplyer = new Vector2(1, 1);
     public static Vector2 rect = new Vector2(375f, 812f);
     private CanvasScaler canvasScaler;
+    public bool godMod;
 
     public Theme[] themes;
 
@@ -49,7 +51,24 @@ public class ControllerUI : MonoBehaviour
                 }
 
             }
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                cardManagerUI.MoveCardToLeft();
+            }
+            if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                cardManagerUI.MoveCardToRight();
+            }
+            if (Input.GetKeyUp(KeyCode.G))
+            {
+                godMod = !godMod;
+            }
         }
+    }
+
+    private void Start()
+    {
+        debugScreen.gameObject.SetActive(Application.isEditor);
     }
 
     private void Awake()

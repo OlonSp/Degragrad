@@ -24,6 +24,7 @@ public class CoeffUI : MonoBehaviour
     public void SetPercents(float prs)
     {
         percents = Mathf.Clamp(prs, 0, 100);
+        if (ControllerUI.inst.godMod) percents = Mathf.Clamp(prs, 5, 95);
         if (percents == 0)
         {
             ControllerUI.inst.cardManagerUI.spawnDeath = true;
