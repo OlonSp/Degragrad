@@ -8,6 +8,7 @@ public class DebugScreen : MonoBehaviour
     public TMP_Text timeScaleTxt;
     public TMP_Text currCardTxt;
     public TMP_Text godModeTxt;
+    public TMP_Text consoleLogTxt;
     public float timeScale = 1;
 
     void Start()
@@ -35,5 +36,10 @@ public class DebugScreen : MonoBehaviour
         timeScaleTxt.text = "Time scale: " + timeScale.ToString();
 
         currCardTxt.text = "Current Crad Num: " + ControllerUI.inst.cardManagerUI.currentCardNum.ToString();
+    }
+
+    public void Log(string message)
+    {
+        consoleLogTxt.text += message + "\n";
     }
 }

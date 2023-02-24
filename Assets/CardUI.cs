@@ -101,11 +101,39 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         anim.enabled = true;
         anim.Rebind();
     }
+    
+    public Vector3 getMousePos()
+    {
+        //if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        //{
+        //    if (Input.GetTouch(0).phase != TouchPhase.Ended)
+        //    {
+        //        return Input.GetTouch(0).position;
+        //    }
+        //}
+        if (Input.touchCount > 1)
+        {
+            return Input.GetTouch(0).position;
+        }
+        return Input.mousePosition;
+    }
 
     private void LateUpdate()
     {
         UpdateState();
-        Vector2 mousePos = (presPosition - Input.mousePosition) / ControllerUI.scaleMultiplyer;
+        Vector2 mousePos = (presPosition - getMousePos()) / ControllerUI.scaleMultiplyer;
+
+        //switch (Input.GetTouch(0).phase)
+        //{
+        //    case TouchPhase.Began:
+        //        presPosition = getMousePos();
+        //        isDragging = true;
+        //        break;
+        //    case TouchPhase.Ended:
+        //        isDragging = false;
+        //        break;
+        //}
+
         switch (state)
         {
             case CardStates.Dragging:
@@ -160,12 +188,12 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             ControllerUI.inst.cardManagerUI.CreateCard();
             Destroy(gameObject);
         }
-        presPosition = Input.mousePosition;
+        presPosition = getMousePos();
     }
 
     private void OnMouseDown()
     {
-        presPosition = Input.mousePosition;
+        presPosition = getMousePos();
         isDragging = true;
     }
 
@@ -181,7 +209,7 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        presPosition = Input.mousePosition;
+        presPosition = getMousePos();
         isDragging = true;
     }
 }

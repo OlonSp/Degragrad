@@ -17,6 +17,7 @@ public class ControllerUI : MonoBehaviour
     public static Vector2 scaleMultiplyer = new Vector2(1, 1);
     public static Vector2 rect = new Vector2(375f, 812f);
     private CanvasScaler canvasScaler;
+    public GameObject webBlock;
     public bool godMod;
 
     public Theme[] themes;
