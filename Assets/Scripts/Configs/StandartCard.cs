@@ -1,4 +1,8 @@
 using UnityEngine;
+using System.Collections;
+using Sirenix.OdinInspector;
+using System;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "Create Card/ New Standart Card", order = 51)]
 public class StandartCard : CardInfo
@@ -7,30 +11,71 @@ public class StandartCard : CardInfo
     [System.Serializable]
     public class Parametrs
     {
-        [Tooltip("Ключи: imba, goblin, key, money")]
+        [ValueDropdown("coeffNames", AppendNextDrawer = true)]
+        [LabelText("Ключ")]
         public string key;
-        public float value;
+        [LabelText("Значение")]
+        public string value;
+
+        private string[] coeffNames = { "imba", "goblin", "key", "money" };
     }
 
-    [Header("При свайпе влево")]
+    [Title("Свайп влево")]
+    [LabelText("Параметры для изменения")]
     public Parametrs[] _leftParametrsToChange;
+    [LabelText("Новые доступные карты")]
     public CardInfo[] _newCardOnLeft;
-    [Tooltip("Изменяет возможность спавна на противоположную")]
+    [LabelText("Карты для удаления")]
+    public CardInfo[] _cardsToDeleteLeft;
+    [LabelText("Следующая карта")]
+    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardInfo _nextCardLeft;
+    [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnL;
 
-    [Header("При свайпе вправо")]
+    [Title("Свайп вправо")]
+    [LabelText("Параметры для изменения")]
     public Parametrs[] _rightParametrsToChange;
+    [LabelText("Новые доступные карты")]
     public CardInfo[] _newCardOnRight;
-    [Tooltip("Изменяет возможность спавна на противоположную")]
+    [LabelText("Карты для удаления")]
+    public CardInfo[] _cardsToDeleteRight;
+    [LabelText("Следующая карта")]
+    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardInfo _nextCardRight;
+    [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnR;
+
+    private IEnumerable GetAvailableCards()
+    {
+        return UnityEditor.AssetDatabase.FindAssets("t:CardInfo")
+            .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
+            .Select(x => new ValueDropdownItem(UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x).description, UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x)));
+    }
+    
+    public void ParseParameters(Parametrs[] parametrs)
+    {
+        foreach (var i in parametrs)
+        {
+            int value = 0;
+            if (int.TryParse(i.value, out value))
+            {
+                if (!ControllerUI.inst.coeffManager.ChangeValue(i.key, value))
+                {
+                    PlayerPrefs.SetString(i.key, i.value);
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetString(i.key, i.value);
+            }
+
+        }
+    }
 
     public override void LeftChoose()
     {
-        Debug.Log("left Parametrs change");
-        foreach (var i in _leftParametrsToChange)
-        {
-            ControllerUI.inst.coeffManager.ChangeValue(i.key, i.value);
-        }
+        ParseParameters(_leftParametrsToChange);
         foreach (var i in _newCardOnLeft)
         {
             i.canBeSpawn = true;
@@ -44,11 +89,7 @@ public class StandartCard : CardInfo
 
     public override void RightChoose()
     {
-        Debug.Log("Rigth Parametrs change");
-        foreach (var i in _rightParametrsToChange)
-        {
-            ControllerUI.inst.coeffManager.ChangeValue(i.key, i.value);
-        }
+        ParseParameters(_rightParametrsToChange);
         foreach (var i in _newCardOnRight)
         {
             i.canBeSpawn = true;

@@ -1,19 +1,27 @@
 using UnityEngine;
+using System.Collections;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "Create Card/ New Empty Card", order = 51)]
 public class CardInfo : ScriptableObject
 {
-    [Header("Инфа о карте")]
+    [Title("Информация о карте")]
+    [LabelText("Изображение")]
     [SerializeField] private Sprite _Image;
+    [LabelText("Статус (вкл./выкл.)")]
     public bool canBeSpawn;
-    [Tooltip("Месяц, с которого карта может спавниться")]
+    [LabelText("Месяц, с которого карта может спавниться")]
     public int timeSinceCanBeSpawn = 0;
-    [Tooltip("Месяц, по который карта может спавниться")]
+    [LabelText("Месяц, по который карта может спавниться")]
     public int timeUntilCanBeSpawn = -1;
 
-    [Header("Инфа о просьбе")]
+    [Title("Информация о просьбе")]
+    [LabelText("Текст просьбы")]
     [SerializeField] private string _description;
+    [LabelText("Текст слева")]
     [SerializeField] private string _leftText;
+    [LabelText("Текст справа")]
     [SerializeField] private string _rightText;
 
     public virtual void LeftChoose()

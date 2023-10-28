@@ -21,12 +21,13 @@ public class CardManagerUI : MonoBehaviour
     public Transform cardShowCenterPoint;
     public GameObject cardPrefab;
     public GameObject fakeCard;
-    private CardUI activeCard;
+    public CardUI activeCard;
     public CardInfo[] cards;
     private List<CardInfo> queue = new List<CardInfo>();
-    private List<CardUI> spawnedCards = new List<CardUI>();
+    public List<CardUI> spawnedCards = new List<CardUI>();
     public int currentCardNum;
     public bool spawnDeath = false;
+    private bool isDeathSpawned;
 
     void Start()
     {
@@ -65,22 +66,25 @@ public class CardManagerUI : MonoBehaviour
         for (int i = 0;i<queue.Count;i++)
         {
             yield return new WaitForSeconds(0.1f);
-            SoundManagerController.inst.PlaySound("showCard");
+            SoundManagerController.inst.PlaySound("showCard0");
             CreateCard(true);
         }
         yield return new WaitForSeconds(1);
         fakeCard.SetActive(true);
         CreateCard();
     }
-
+    
+    // Показ экрана смерти
     public void OnDeathScreenShow()
     {
-        //print("DEATHTHEME");
+        ControllerUI.inst.wideBackImg.GetComponent<Image>().sprite = ControllerUI.inst.curDeathBackground;
         ControllerUI.inst.SetTheme("death");
+        fakeCard.SetActive(false);
     }
 
     public void CreateCard(bool isSpawnOutScreen = false)
     {
+        if (isDeathSpawned) return;
         if (spawnedCards.Count > 0 && !isSpawnOutScreen)
         {
             currentCardNum += 1;
@@ -128,6 +132,7 @@ public class CardManagerUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         newCard.ShowCard();
+        isDeathSpawned = true;
         ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
     }
 
@@ -156,7 +161,6 @@ public class CardManagerUI : MonoBehaviour
             if(card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1  || ModelController.monthsCount <= card.timeUntilCanBeSpawn ))
                 queue.Add(card);
         }
-        print(queue.Count);
         queue.Shuffle();
     }
 

@@ -23,7 +23,8 @@ MonoBehaviour:
   _leftParametrsToChange:
   - key: goblin
     value: 15
-  _newCardOnLeft: []
+  _newCardOnLeft:
+  - {fileID: 11400000}
   _changeSpawnL: 0
   _rightParametrsToChange:
   - key: goblin

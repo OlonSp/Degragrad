@@ -1,0 +1,26 @@
+{
+	"name": "com.sirenix.odin-inspector",
+	"displayName": "Odin Inspector and Serializer",
+	"description": "Odin puts your Unity workflow on steroids, making it easy to build powerful and advanced user-friendly editors for you and your entire team.",
+	
+	"version": "3.1.10",
+	"unity": "2019.4",
+	"unityRelease": "39f1",
+	
+	"documentationUrl": "https://odininspector.com/documentation",
+	"homepage": "https://odininspector.com/?utm_source=assetstore&utm_medium=description_link&utm_campaign=default/",
+	"author":
+	{
+		"name" : "Sirenix",
+		"email" : "mail@sirenix.net",
+		"url" : "https://odininspector.com/"
+	},
+	"samples":
+	[
+		{
+			"displayName": "Demonstrations",
+			"description": "Demonstration Scenes",
+			"path": "Demos~"
+		}
+	]
+}
