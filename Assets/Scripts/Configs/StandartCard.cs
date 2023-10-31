@@ -45,14 +45,14 @@ public class StandartCard : CardInfo
     public CardInfo _nextCardRight;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnR;
-
+#if UNITY_EDITOR
     private IEnumerable GetAvailableCards()
     {
         return UnityEditor.AssetDatabase.FindAssets("t:CardInfo")
             .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
             .Select(x => new ValueDropdownItem(UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x).description, UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x)));
     }
-    
+#endif
     public void ParseParameters(Parametrs[] parametrs)
     {
         foreach (var i in parametrs)
