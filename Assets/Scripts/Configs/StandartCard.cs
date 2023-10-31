@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
@@ -24,27 +25,33 @@ public class StandartCard : CardInfo
     [LabelText("Параметры для изменения")]
     public Parametrs[] _leftParametrsToChange;
     [LabelText("Новые доступные карты")]
-    public CardInfo[] _newCardOnLeft;
+    public CardBase[] _newCardOnLeft;
     [LabelText("Карты для удаления")]
-    public CardInfo[] _cardsToDeleteLeft;
+    public CardBase[] _cardsToDeleteLeft;
     [LabelText("Следующая карта")]
-    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
-    public CardInfo _nextCardLeft;
+    //[ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardBase _nextCardLeft;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnL;
+    [TableList(ShowPaging = true, AlwaysExpanded = true)]
+    [LabelText("Условия")]
+    public List<Condition> _conditionsLeft = new List<Condition>();
 
     [Title("Свайп вправо")]
     [LabelText("Параметры для изменения")]
     public Parametrs[] _rightParametrsToChange;
     [LabelText("Новые доступные карты")]
-    public CardInfo[] _newCardOnRight;
+    public CardBase[] _newCardOnRight;
     [LabelText("Карты для удаления")]
-    public CardInfo[] _cardsToDeleteRight;
+    public CardBase[] _cardsToDeleteRight;
     [LabelText("Следующая карта")]
-    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
-    public CardInfo _nextCardRight;
+    //[ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardBase _nextCardRight;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnR;
+    [TableList(ShowPaging = true, AlwaysExpanded = true)]
+    [LabelText("Условия")]
+    public List<Condition> _conditionsRight = new List<Condition>();
 
     private IEnumerable GetAvailableCards()
     {
@@ -78,7 +85,10 @@ public class StandartCard : CardInfo
         ParseParameters(_leftParametrsToChange);
         foreach (var i in _newCardOnLeft)
         {
-            i.canBeSpawn = true;
+            if (!((i as CardInfo) is null))
+            {
+                (i as CardInfo).canBeSpawn = true;
+            }
         }
         if (_changeSpawnL)
         {
@@ -92,7 +102,10 @@ public class StandartCard : CardInfo
         ParseParameters(_rightParametrsToChange);
         foreach (var i in _newCardOnRight)
         {
-            i.canBeSpawn = true;
+            if (!((i as CardInfo) is null))
+            {
+                (i as CardInfo).canBeSpawn = true;
+            }
         }
         if (_changeSpawnR)
         {
