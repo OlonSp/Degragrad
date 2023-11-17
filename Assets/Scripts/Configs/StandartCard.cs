@@ -33,9 +33,6 @@ public class StandartCard : CardInfo
     public CardBase _nextCardLeft;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnL;
-    [TableList(ShowPaging = true, AlwaysExpanded = true)]
-    [LabelText("Условия")]
-    public List<Condition> _conditionsLeft = new List<Condition>();
 
     [Title("Свайп вправо")]
     [LabelText("Параметры для изменения")]
@@ -49,9 +46,6 @@ public class StandartCard : CardInfo
     public CardBase _nextCardRight;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnR;
-    [TableList(ShowPaging = true, AlwaysExpanded = true)]
-    [LabelText("Условия")]
-    public List<Condition> _conditionsRight = new List<Condition>();
 
 #if UNITY_EDITOR
     private IEnumerable GetAvailableCards()
@@ -70,7 +64,7 @@ public class StandartCard : CardInfo
             {
                 if (!ControllerUI.inst.coeffManager.ChangeValue(i.key, value))
                 {
-                    PlayerPrefs.SetString(i.key, i.value);
+                    PlayerPrefs.SetInt(i.key, value);
                 }
             }
             else
@@ -95,7 +89,14 @@ public class StandartCard : CardInfo
         {
             this.canBeSpawn = false;
         }
-
+        if (_nextCardLeft != null)
+        {
+            ControllerUI.inst.cardManagerUI.ShowCard(_nextCardLeft, false);
+        }
+        else
+        {
+            ControllerUI.inst.cardManagerUI.ShowNextCard();
+        }
     }
 
     public override void RightChoose()
@@ -111,6 +112,14 @@ public class StandartCard : CardInfo
         if (_changeSpawnR)
         {
             this.canBeSpawn = false;
+        }
+        if (_nextCardRight != null)
+        {
+            ControllerUI.inst.cardManagerUI.ShowCard(_nextCardRight, false);
+        }
+        else
+        {
+            ControllerUI.inst.cardManagerUI.ShowNextCard();
         }
     }
 }

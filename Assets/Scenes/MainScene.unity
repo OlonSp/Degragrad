@@ -8163,6 +8163,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e7d8c391b5d6b84ab0522ee2b94c08b, type: 2}
   - {fileID: 11400000, guid: 87eb40685126c1f4fb3046918e26270d, type: 2}
   - {fileID: 11400000, guid: 5937b7a9206e55c499528af03fe927f3, type: 2}
+  - {fileID: 11400000, guid: 4b05858219f82ef4b9a1edbae42c0ef4, type: 2}
   spawnedCards: []
   currentCardNum: 0
   spawnDeath: 0
@@ -29063,7 +29064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -105.770004, y: -8.900002}
+  m_AnchoredPosition: {x: -105.77002, y: -8.900002}
   m_SizeDelta: {x: -211.53, y: 61.782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1610615558
@@ -29621,7 +29622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -132.85027, y: 195.02502}
+  m_AnchoredPosition: {x: -132.85028, y: 195.02502}
   m_SizeDelta: {x: 265.7, y: 390.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1730909052
@@ -34703,7 +34704,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &2019334361
 MonoBehaviour:
   m_ObjectHideFlags: 0

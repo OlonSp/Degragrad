@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5952aef55e43b4caa953a07f81d6fb, type: 3}
   m_Name: ConditionBlock
   m_EditorClassIdentifier: 
-  _conditions: []
+  _conditions:
+  - key: goblin
+    condition: '>='
+    value: 80
+    _NextTrue: {fileID: 11400000, guid: 7436f74571447da4395fbeef92c09749, type: 2}
+    _NextFalse: {fileID: 0}

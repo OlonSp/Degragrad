@@ -8,4 +8,21 @@ public class ConditionBlock : CardBase
     [TableList(ShowPaging = true, AlwaysExpanded = true)]
     [LabelText("Условия")]
     public List<Condition> _conditions = new List<Condition>();
+
+    public CardBase GetHextCard()
+    {
+        foreach (Condition cond in _conditions)
+        {
+            Debug.Log(cond._IsValid);
+            if (cond._IsValid)
+            {
+                if (cond._NextTrue != null) return cond._NextTrue;
+            }
+            else
+            {
+                if (cond._NextFalse != null) return cond._NextFalse;
+            }
+        }
+        return null;
+    }
 }

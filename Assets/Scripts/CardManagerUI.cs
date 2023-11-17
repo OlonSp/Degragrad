@@ -22,8 +22,8 @@ public class CardManagerUI : MonoBehaviour
     public GameObject cardPrefab;
     public GameObject fakeCard;
     public CardUI activeCard;
-    public CardInfo[] cards;
-    private List<CardInfo> queue = new List<CardInfo>();
+    public CardBase[] cards;
+    private List<CardBase> queue = new List<CardBase>();
     public List<CardUI> spawnedCards = new List<CardUI>();
     public int currentCardNum;
     public bool spawnDeath = false;
@@ -67,11 +67,11 @@ public class CardManagerUI : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             SoundManagerController.inst.PlaySound("showCard0");
-            CreateCard(true);
+            ShowNextCard(true);
         }
         yield return new WaitForSeconds(1);
         fakeCard.SetActive(true);
-        CreateCard();
+        ShowNextCard();
     }
     
     // Показ экрана смерти
@@ -82,7 +82,7 @@ public class CardManagerUI : MonoBehaviour
         fakeCard.SetActive(false);
     }
 
-    public void CreateCard(bool isSpawnOutScreen = false)
+    public void ShowNextCard(bool isSpawnOutScreen = false)
     {
         if (isDeathSpawned) return;
         if (spawnedCards.Count > 0 && !isSpawnOutScreen)
@@ -98,20 +98,40 @@ public class CardManagerUI : MonoBehaviour
         {
             SetQueue();
         }
+
+        ShowCard(queue[0], isSpawnOutScreen);
+        queue.RemoveAt(0);
+    }
+
+    public void ShowCard(CardBase card, bool isSpawnOutScreen)
+    {
+        if ((card as CardInfo) != null)
+        {
+            SpawnCard(card as CardInfo, isSpawnOutScreen);
+        }
+        else if ((card as ConditionBlock) != null)
+        {
+            CardBase newCard = (card as ConditionBlock).GetHextCard();
+            if (newCard != null) ShowCard(newCard, isSpawnOutScreen);
+            //else ShowNextCard();
+        }
+    }
+
+    public void SpawnCard(CardInfo card, bool isSpawnOutScreen)
+    {
         CardUI newCard = Instantiate(cardPrefab, transform).GetComponent<CardUI>();
         if (isSpawnOutScreen) newCard.transform.position = cardSpawnPoint.position;
-        newCard.mainImage.sprite = queue[0].Image;
+        newCard.mainImage.sprite = card.Image;
         newCard.cardStartCenter = cardStartCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
         newCard.cardShowCenter = cardShowCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
-        newCard.GetComponent<CardUI>().rightText.text = queue[0].leftText;
-        newCard.GetComponent<CardUI>().leftText.text = queue[0].rightText;
-        newCard.GetComponent<CardUI>().cardInfo = queue[0];
+        newCard.GetComponent<CardUI>().rightText.text = card.leftText;
+        newCard.GetComponent<CardUI>().leftText.text = card.rightText;
+        newCard.GetComponent<CardUI>().cardInfo = card;
         if (isSpawnOutScreen) spawnedCards.Add(newCard);
         if (newCard.cardInfo.GetType() == typeof(DeathCard))
         {
             ControllerUI.inst.blackScreen.Show();
         }
-        queue.RemoveAt(0);
         if (!isSpawnOutScreen)
         {
             if (!spawnDeath)
@@ -156,27 +176,19 @@ public class CardManagerUI : MonoBehaviour
 
     public void SetQueue()
     {
-        foreach (CardInfo card in cards)
+        foreach (CardBase newCard in cards)
         {
-            if(card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1  || ModelController.monthsCount <= card.timeUntilCanBeSpawn ))
-                queue.Add(card);
+            CardInfo card = newCard as CardInfo;
+            if (card != null)
+            {
+                if (card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1 || ModelController.monthsCount <= card.timeUntilCanBeSpawn))
+                    queue.Add(card);
+            }
+            else
+            {
+                queue.Add(newCard);
+            }
         }
         queue.Shuffle();
     }
-
-    
-    //public void ShowCard()
-    //{
-    //    if (cards.Count == 1)
-    //    {
-    //        if (!cards[0].cardActive) cards[0].ShowCard();
-    //        cards.RemoveAt(0);
-    //    }
-    //    if (cards.Count == 0) return;
-    //    if (cards[cards.Count - 1].cardActive)
-    //    {
-    //        cards.RemoveAt(cards.Count - 1);
-    //    }
-    //    cards[cards.Count - 1].ShowCard();
-    //}
 }

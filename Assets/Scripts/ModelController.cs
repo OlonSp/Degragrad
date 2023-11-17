@@ -91,16 +91,22 @@ public class ModelController : MonoBehaviour
         }
     }
 
-
-    
-
-
     public static void ChangeMonths(int delta)
     {
         monthsCount += delta;
         yearsCount = monthsCount / 12;
         ControllerUI.inst.bottomMenu.yearCounter.SetNumber((yearsCount + startYear).ToString());
         ControllerUI.inst.bottomMenu.SetMonths(monthsCount);
+    }
+
+    public static int TryGetIntValue(string key, int defaultValue)
+    {
+        return PlayerPrefs.GetInt(key, defaultValue);
+    }
+
+    public static string TryGetStringValue(string key, string defaultValue)
+    {
+        return PlayerPrefs.GetString(key, defaultValue);
     }
 
     public static void SetDefaults()
