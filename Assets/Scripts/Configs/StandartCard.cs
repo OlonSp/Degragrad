@@ -53,13 +53,14 @@ public class StandartCard : CardInfo
     [LabelText("Условия")]
     public List<Condition> _conditionsRight = new List<Condition>();
 
+#if UNITY_EDITOR
     private IEnumerable GetAvailableCards()
     {
         return UnityEditor.AssetDatabase.FindAssets("t:CardInfo")
             .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
             .Select(x => new ValueDropdownItem(UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x).description, UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x)));
     }
-    
+#endif
     public void ParseParameters(Parametrs[] parametrs)
     {
         foreach (var i in parametrs)
