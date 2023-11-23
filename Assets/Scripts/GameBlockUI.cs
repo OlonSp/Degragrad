@@ -66,4 +66,9 @@ public class GameBlockUI : MonoBehaviour
             }
         }
     }
+
+    public void ResetProgress()
+    {
+        ControllerUI.inst.coeffManager.ResetDefaultValues();
+    }
 }

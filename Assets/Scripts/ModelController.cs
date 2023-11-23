@@ -99,6 +99,16 @@ public class ModelController : MonoBehaviour
         ControllerUI.inst.bottomMenu.SetMonths(monthsCount);
     }
 
+    public static void SetCoeff(string key, float value)
+    {
+        PlayerPrefs.SetFloat(key, value);
+    }
+
+    public static float GetCoeff(string key)
+    {
+        return PlayerPrefs.GetFloat(key, 50);
+    }
+
     public static int TryGetIntValue(string key, int defaultValue)
     {
         return PlayerPrefs.GetInt(key, defaultValue);
