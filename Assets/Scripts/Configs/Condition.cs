@@ -29,12 +29,12 @@ public class Condition
 
     private string[] coeffNames = { "imba", "goblin", "key", "money" };
     private string[] ConditionVariants = { "=", ">", ">=", "<", "<=" };
-    private IEnumerable GetAvailableCards()
-    {
-        return UnityEditor.AssetDatabase.FindAssets("t:CardInfo")
-            .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
-            .Select(x => new ValueDropdownItem(UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x).description, UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x)));
-    }
+    //private IEnumerable GetAvailableCards()
+    //{
+    //    return UnityEditor.AssetDatabase.FindAssets("t:CardInfo")
+    //        .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
+    //        .Select(x => new ValueDropdownItem(UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x).description, UnityEditor.AssetDatabase.LoadAssetAtPath<CardInfo>(x)));
+    //}
 
     public bool _IsValid
     {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da488e1a02430e148af8b31e71bca76c, type: 3}
   m_Name: "\u0416\u0435\u043A\u0430_1"
   m_EditorClassIdentifier: 
-  _Image: {fileID: 21300000, guid: 97e6225263fdf664581c3cdaa7c1a452, type: 3}
+  _Image: {fileID: 21300000, guid: 8ed145cb9a3375d46ad42ee4062ea46b, type: 3}
   canBeSpawn: 1
   timeSinceCanBeSpawn: 0
   timeUntilCanBeSpawn: -1
