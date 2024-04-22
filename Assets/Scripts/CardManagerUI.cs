@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class CardManagerUI : MonoBehaviour
 {
@@ -15,28 +16,37 @@ public class CardManagerUI : MonoBehaviour
 
     [SerializeField] private Text DescriptionText;
     
-
-    public Transform cardSpawnPoint;
-    public Transform cardStartCenterPoint;
-    public Transform cardShowCenterPoint;
-    public GameObject cardPrefab;
-    public GameObject fakeCard;
+    [SerializeField]
+    private Transform CardSpawnPoint;
+    [SerializeField]
+    private Transform CardStartCenterPoint;
+    [SerializeField]
+    private Transform CardShowCenterPoint;
+    [SerializeField]
+    private GameObject CardPrefab;
+    [SerializeField]
+    private GameObject FakeCard;
+    [HideInInspector]
     public CardUI activeCard;
-    public CardInfo[] cards;
-    private List<CardInfo> queue = new List<CardInfo>();
+    [HideInInspector]
     public List<CardUI> spawnedCards = new List<CardUI>();
+    [HideInInspector]
     public int currentCardNum;
-    public bool spawnDeath = false;
+    [HideInInspector]
+    public CardBase spawnDeath = null;
     private bool isDeathSpawned;
+    [SerializeField]
+    private StandartCard EmptyCard;
+
+    public ConditionBlock[] MainBlockConditions;
+    public StandartCard[] SideCards;
+    public Vector2 SideCardsCountBounds;
+    private bool _isMainQuest = true;
+    private List<StandartCard> _sideQueue = new List<StandartCard>();
 
     void Start()
     {
         ControllerUI.inst.blackScreen.animEnded += OnDeathScreenShow;
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void MoveCardToLeft()
@@ -60,58 +70,107 @@ public class CardManagerUI : MonoBehaviour
         StartCoroutine(CreateStartQueue());
     }
 
+    public void NewShowCard()
+    {
+        if (!spawnDeath)
+        {
+            CardBase newCard = SelectNewCard();
+            ShowCard(newCard, false);
+        }
+        else
+        {
+            ShowCard(spawnDeath, false);
+        }
+    }
+
+    public CardBase SelectNewCard()
+    {
+        CardBase newCard = null;
+        if (_isMainQuest)
+        {
+            foreach (ConditionBlock block in MainBlockConditions)
+            {
+                newCard = block.GetHextCard();
+                if (newCard != null) break;
+            }
+            _isMainQuest = !_isMainQuest;
+        }
+        if (newCard == null)
+        {
+            if (_sideQueue.Count == 0)
+            {
+                int sideCount = (int)UnityEngine.Random.Range(SideCardsCountBounds.x, SideCardsCountBounds.y);
+                _sideQueue = SideCards.OrderBy(arg => Guid.NewGuid()).Take(sideCount).ToList();
+            }
+            newCard = _sideQueue[0];
+            _sideQueue.RemoveAt(0);
+            if (_sideQueue.Count == 0)
+            {
+                _isMainQuest = true;
+            }
+        }
+        return newCard;
+    }
+
     public IEnumerator CreateStartQueue()
     {
-        SetQueue();
-        for (int i = 0;i<queue.Count;i++)
+        for (int i = 0;i<10;i++)
         {
             yield return new WaitForSeconds(0.1f);
             SoundManagerController.inst.PlaySound("showCard0");
-            CreateCard(true);
+            ShowCard(EmptyCard, true);
         }
-        yield return new WaitForSeconds(1);
-        fakeCard.SetActive(true);
-        CreateCard();
+        yield return new WaitForSeconds(2);
+        FakeCard.SetActive(true);
+        foreach (CardUI card in spawnedCards)
+        {
+            Destroy(card.gameObject);
+        }
+        spawnedCards.Clear();
+        ShowNextCard();
     }
     
-    // Показ экрана смерти
     public void OnDeathScreenShow()
     {
         ControllerUI.inst.wideBackImg.GetComponent<Image>().sprite = ControllerUI.inst.curDeathBackground;
         ControllerUI.inst.SetTheme("death");
-        fakeCard.SetActive(false);
+        FakeCard.SetActive(false);
     }
 
-    public void CreateCard(bool isSpawnOutScreen = false)
+    public void ShowNextCard()
     {
         if (isDeathSpawned) return;
-        if (spawnedCards.Count > 0 && !isSpawnOutScreen)
+        NewShowCard();
+    }
+
+    public void ShowCard(CardBase card, bool isSpawnOutScreen)
+    {
+        if ((card as CardInfo) != null)
         {
-            currentCardNum += 1;
-            spawnedCards[0].ShowCard();
-            activeCard = spawnedCards[0];
-            ControllerUI.inst.scrollBlockUI.SetText(spawnedCards[0].cardInfo.description);
-            spawnedCards.RemoveAt(0);
-            return;
+            SpawnCard(card as CardInfo, isSpawnOutScreen);
         }
-        if (queue.Count == 0)
+        else if ((card as ConditionBlock) != null)
         {
-            SetQueue();
+            CardBase newCard = (card as ConditionBlock).GetHextCard();
+            if (newCard != null) ShowCard(newCard, isSpawnOutScreen);
         }
-        CardUI newCard = Instantiate(cardPrefab, transform).GetComponent<CardUI>();
-        if (isSpawnOutScreen) newCard.transform.position = cardSpawnPoint.position;
-        newCard.mainImage.sprite = queue[0].Image;
-        newCard.cardStartCenter = cardStartCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
-        newCard.cardShowCenter = cardShowCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
-        newCard.GetComponent<CardUI>().rightText.text = queue[0].leftText;
-        newCard.GetComponent<CardUI>().leftText.text = queue[0].rightText;
-        newCard.GetComponent<CardUI>().cardInfo = queue[0];
+    }
+
+    public void SpawnCard(CardInfo card, bool isSpawnOutScreen)
+    {
+        CardUI newCard = Instantiate(CardPrefab, transform).GetComponent<CardUI>();
+        if (isSpawnOutScreen) newCard.transform.position = CardSpawnPoint.position;
+        newCard.mainImage.sprite = card.Image;
+        newCard.cardStartCenter = CardStartCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
+        newCard.cardShowCenter = CardShowCenterPoint.GetComponent<RectTransform>().anchoredPosition3D;
+        newCard.GetComponent<CardUI>().rightText.text = card.leftText;
+        newCard.GetComponent<CardUI>().leftText.text = card.rightText;
+        newCard.GetComponent<CardUI>().cardInfo = card;
         if (isSpawnOutScreen) spawnedCards.Add(newCard);
         if (newCard.cardInfo.GetType() == typeof(DeathCard))
         {
             ControllerUI.inst.blackScreen.Show();
         }
-        queue.RemoveAt(0);
         if (!isSpawnOutScreen)
         {
             if (!spawnDeath)
@@ -135,48 +194,4 @@ public class CardManagerUI : MonoBehaviour
         isDeathSpawned = true;
         ControllerUI.inst.scrollBlockUI.SetText(newCard.cardInfo.description);
     }
-
-    public void AddCardToQueue(CardInfo newCard)
-    {
-        queue.Insert(0, newCard);
-    }
-
-    public void ClearQueue()
-    {
-        queue.Clear();
-        if (spawnedCards.Count > 1)
-        {
-            for (int i = 0; i < spawnedCards.Count; i++)
-            {
-                Destroy(spawnedCards[i].gameObject);
-            }
-            spawnedCards = new List<CardUI>() { spawnedCards[0] };
-        }
-    }
-
-    public void SetQueue()
-    {
-        foreach (CardInfo card in cards)
-        {
-            if(card.canBeSpawn == true && ModelController.monthsCount >= card.timeSinceCanBeSpawn && (card.timeUntilCanBeSpawn == -1  || ModelController.monthsCount <= card.timeUntilCanBeSpawn ))
-                queue.Add(card);
-        }
-        queue.Shuffle();
-    }
-
-    
-    //public void ShowCard()
-    //{
-    //    if (cards.Count == 1)
-    //    {
-    //        if (!cards[0].cardActive) cards[0].ShowCard();
-    //        cards.RemoveAt(0);
-    //    }
-    //    if (cards.Count == 0) return;
-    //    if (cards[cards.Count - 1].cardActive)
-    //    {
-    //        cards.RemoveAt(cards.Count - 1);
-    //    }
-    //    cards[cards.Count - 1].ShowCard();
-    //}
 }

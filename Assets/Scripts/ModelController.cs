@@ -17,6 +17,13 @@ public class ModelController : MonoBehaviour
     public static SoundChangedVolumeDelegate OnSoundsVolumeChanged;
     public static SoundChangedVolumeDelegate OnAllVolumeChanged;
 
+    private void Awake()
+    {
+        if (!PlayerPrefs.HasKey("block"))
+        {
+            PlayerPrefs.SetInt("block", 0);
+        }
+    }
     public static bool isDebugging
     {
         get
@@ -91,16 +98,32 @@ public class ModelController : MonoBehaviour
         }
     }
 
-
-    
-
-
     public static void ChangeMonths(int delta)
     {
         monthsCount += delta;
         yearsCount = monthsCount / 12;
         ControllerUI.inst.bottomMenu.yearCounter.SetNumber((yearsCount + startYear).ToString());
         ControllerUI.inst.bottomMenu.SetMonths(monthsCount);
+    }
+
+    public static void SetCoeff(string key, float value)
+    {
+        PlayerPrefs.SetFloat(key, value);
+    }
+
+    public static float GetCoeff(string key)
+    {
+        return PlayerPrefs.GetFloat(key, 50);
+    }
+
+    public static int TryGetIntValue(string key, int defaultValue)
+    {
+        return PlayerPrefs.GetInt(key, defaultValue);
+    }
+
+    public static string TryGetStringValue(string key, string defaultValue)
+    {
+        return PlayerPrefs.GetString(key, defaultValue);
     }
 
     public static void SetDefaults()

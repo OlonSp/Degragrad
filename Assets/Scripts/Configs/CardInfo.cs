@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "Create Card/ New Empty Card", order = 51)]
-public class CardInfo : ScriptableObject
+public class CardInfo : CardBase
 {
     [Title("Информация о карте")]
     [LabelText("Изображение")]

@@ -28,6 +28,8 @@ public class CoeffUI : MonoBehaviour
 
     private float heightVelocity;
 
+    public string coeffKey;
+
     private Color minusColor = new Color(1, 0.3787588f, 0.3725491f);
     private Color plusColor = new Color(0.3726415f, 1, 0.3926642f);
 
@@ -40,17 +42,13 @@ public class CoeffUI : MonoBehaviour
     {
         if (death_id == 0)
         {
-            ControllerUI.inst.cardManagerUI.spawnDeath = true;
+            ControllerUI.inst.cardManagerUI.spawnDeath = UnderDeathCard;
             ControllerUI.inst.curDeathBackground = UnderDeathBack;
-            ControllerUI.inst.cardManagerUI.ClearQueue();
-            ControllerUI.inst.cardManagerUI.AddCardToQueue(UnderDeathCard);
         }
         else
         {
-            ControllerUI.inst.cardManagerUI.spawnDeath = true;
+            ControllerUI.inst.cardManagerUI.spawnDeath = OverDeathCard;
             ControllerUI.inst.curDeathBackground = OverDeathBack;
-            ControllerUI.inst.cardManagerUI.ClearQueue();
-            ControllerUI.inst.cardManagerUI.AddCardToQueue(OverDeathCard);
         }
     }
 
@@ -66,6 +64,10 @@ public class CoeffUI : MonoBehaviour
         else if (percents == 100)
         {
             OnDeathPercents(1);
+        }
+        else
+        {
+            ModelController.SetCoeff(coeffKey, percents);
         }
         currentPercents = imageFill.fillAmount;
         time = 0;

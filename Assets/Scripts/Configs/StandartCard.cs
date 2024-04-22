@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
@@ -24,12 +25,12 @@ public class StandartCard : CardInfo
     [LabelText("Параметры для изменения")]
     public Parametrs[] _leftParametrsToChange;
     [LabelText("Новые доступные карты")]
-    public CardInfo[] _newCardOnLeft;
+    public CardBase[] _newCardOnLeft;
     [LabelText("Карты для удаления")]
-    public CardInfo[] _cardsToDeleteLeft;
+    public CardBase[] _cardsToDeleteLeft;
     [LabelText("Следующая карта")]
-    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
-    public CardInfo _nextCardLeft;
+    //[ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardBase _nextCardLeft;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnL;
 
@@ -37,14 +38,15 @@ public class StandartCard : CardInfo
     [LabelText("Параметры для изменения")]
     public Parametrs[] _rightParametrsToChange;
     [LabelText("Новые доступные карты")]
-    public CardInfo[] _newCardOnRight;
+    public CardBase[] _newCardOnRight;
     [LabelText("Карты для удаления")]
-    public CardInfo[] _cardsToDeleteRight;
+    public CardBase[] _cardsToDeleteRight;
     [LabelText("Следующая карта")]
-    [ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
-    public CardInfo _nextCardRight;
+    //[ValueDropdown("GetAvailableCards", AppendNextDrawer = true)]
+    public CardBase _nextCardRight;
     [LabelText("Изменить статус (выключит эту карту после выбора)")]
     public bool _changeSpawnR;
+
 #if UNITY_EDITOR
     private IEnumerable GetAvailableCards()
     {
@@ -62,7 +64,7 @@ public class StandartCard : CardInfo
             {
                 if (!ControllerUI.inst.coeffManager.ChangeValue(i.key, value))
                 {
-                    PlayerPrefs.SetString(i.key, i.value);
+                    PlayerPrefs.SetInt(i.key, value);
                 }
             }
             else
@@ -78,13 +80,23 @@ public class StandartCard : CardInfo
         ParseParameters(_leftParametrsToChange);
         foreach (var i in _newCardOnLeft)
         {
-            i.canBeSpawn = true;
+            if (!((i as CardInfo) is null))
+            {
+                (i as CardInfo).canBeSpawn = true;
+            }
         }
         if (_changeSpawnL)
         {
             this.canBeSpawn = false;
         }
-
+        if (_nextCardLeft != null)
+        {
+            ControllerUI.inst.cardManagerUI.ShowCard(_nextCardLeft, false);
+        }
+        else
+        {
+            ControllerUI.inst.cardManagerUI.ShowNextCard();
+        }
     }
 
     public override void RightChoose()
@@ -92,11 +104,22 @@ public class StandartCard : CardInfo
         ParseParameters(_rightParametrsToChange);
         foreach (var i in _newCardOnRight)
         {
-            i.canBeSpawn = true;
+            if (!((i as CardInfo) is null))
+            {
+                (i as CardInfo).canBeSpawn = true;
+            }
         }
         if (_changeSpawnR)
         {
             this.canBeSpawn = false;
+        }
+        if (_nextCardRight != null)
+        {
+            ControllerUI.inst.cardManagerUI.ShowCard(_nextCardRight, false);
+        }
+        else
+        {
+            ControllerUI.inst.cardManagerUI.ShowNextCard();
         }
     }
 }

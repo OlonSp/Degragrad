@@ -25,9 +25,13 @@ MonoBehaviour:
     value: 15
   _newCardOnLeft:
   - {fileID: 11400000}
+  _cardsToDeleteLeft: []
+  _nextCardLeft: {fileID: 11400000, guid: ce7dda2dd331c724e9445995791f08c7, type: 2}
   _changeSpawnL: 0
   _rightParametrsToChange:
   - key: goblin
     value: -15
   _newCardOnRight: []
+  _cardsToDeleteRight: []
+  _nextCardRight: {fileID: 0}
   _changeSpawnR: 0

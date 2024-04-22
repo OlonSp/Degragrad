@@ -11,42 +11,60 @@ public class CoefficientsManagerUI : MonoBehaviour
     public float selectedFlagHeight;
     public float heightSmooth;
 
+    private bool _isInit;
     private void Awake()
     {
+        Init();
+    }
+
+    public void SetValues()
+    {
+        foreach (CoeffUI cf in coeffs.Values)
+        {
+            cf.SetPercents(ModelController.GetCoeff(cf.coeffKey));
+        }
+    }
+
+    public void ResetDefaultValues()
+    {
+        Init();
+        foreach (CoeffUI cf in coeffs.Values)
+        {
+            ModelController.SetCoeff(cf.coeffKey, 50);
+        }
+        SetValues();
+    }
+
+    public void Init()
+    {
+        if (_isInit) return;
         foreach (CoeffUI cf in coefficients)
         {
             coeffs[cf.name] = cf;
             cf.targetHeight = targetFlagHeight;
             cf.smooth = heightSmooth;
         }
-    }
-
-    public void SetDefaultValues()
-    {
-        foreach (CoeffUI cf in coeffs.Values)
-        {
-            cf.percents = 50;
-        }
+        _isInit = true;
     }
 
     public bool ChangeValue(string key, float delta)
     {
         if (coeffs.ContainsKey(key)) coeffs[key].ChangePercents(delta);
-        if (coeffs[key].percents == 0 || coeffs[key].percents == 100)
-        {
-            switch (key)
-            {
-                case "imba":
-                    break;
-                case "goblin":
-                    break;
-                case "key":
-                    break;
-                case "money":
-                    break;
+        //if (coeffs[key].percents == 0 || coeffs[key].percents == 100)
+        //{
+        //    switch (key)
+        //    {
+        //        case "imba":
+        //            break;
+        //        case "goblin":
+        //            break;
+        //        case "key":
+        //            break;
+        //        case "money":
+        //            break;
                 
-            }
-        }
+        //    }
+        //}
         return coeffs.ContainsKey(key);
     }
 
@@ -71,11 +89,12 @@ public class CoefficientsManagerUI : MonoBehaviour
 
     public void SelectFlag(string coeffName)
     {
+        if (!coeffs.ContainsKey(coeffName)) return;
         coeffs[coeffName].targetHeight = selectedFlagHeight;
     }
 
     void Start()
     {
-        SetDefaultValues();
+        SetValues();
     }
 }

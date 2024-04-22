@@ -197,18 +197,17 @@ public class CardUI : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         if ((state == CardStates.SkipLeft || state == CardStates.SkipRight) && Mathf.Abs(rect.anchoredPosition.x) >= Screen.width / 2 + rect.rect.width / 2)
         {
             ControllerUI.inst.coeffManager.DesellectFlags();
+            SoundManagerController.inst.PlaySound("cardSkip");
+            ModelController.ChangeMonths(1);
+            bool newCardSpawned = false;
             if (state == CardStates.SkipLeft)
             {
                 cardInfo.LeftChoose();
             }
-
-            if (state == CardStates.SkipRight)
+            else
             {
                 cardInfo.RightChoose();
             }
-            SoundManagerController.inst.PlaySound("cardSkip");
-            ModelController.ChangeMonths(1);
-            ControllerUI.inst.cardManagerUI.CreateCard();
             Destroy(gameObject);
         }
         presPosition = getMousePos();

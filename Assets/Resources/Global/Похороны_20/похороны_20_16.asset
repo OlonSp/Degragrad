@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da488e1a02430e148af8b31e71bca76c, type: 3}
+  m_Name: "\u043F\u043E\u0445\u043E\u0440\u043E\u043D\u044B_20_16"
+  m_EditorClassIdentifier: 
+  _Image: {fileID: 21300000, guid: 9690a6b70531a9144aebc4e2941ac4d5, type: 3}
+  canBeSpawn: 1
+  timeSinceCanBeSpawn: 0
+  timeUntilCanBeSpawn: -1
+  _description: "\u0410 \u0442\u043E, \u043B\u044B\u0441\u0430\u044F \u0442\u044B
+    \u0431\u0430\u0448\u043A\u0430, \u0447\u0442\u043E \u0442\u0435\u043F\u0435\u0440\u044C
+    \u043D\u0430\u0448\u0438 \u0431\u0440\u0430\u0442\u044C\u044F \u043B\u0435\u0436\u0430\u0442
+    \u043F\u043E\u0434 \u0434\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u044B\u043C\u0438 
+    \u043A\u0440\u0438\u0432\u044B\u043C\u0438 \u043A\u0440\u0435\u0441\u0442\u0430\u043C\u0438.
+    \u042D\u0442\u043E \u0443\u043D\u0438\u0437\u0438\u0442\u0435\u043B\u044C\u043D\u043E!
+    \u041C\u044B \u0442\u0435\u0431\u044F \u043D\u0430\u043A\u0430\u0436\u0435\u043C."
+  _leftText: "\u041D\u0435 \u043D\u0430\u0434\u043E!"
+  _rightText: "\u0410 \u043C\u043E\u0436\u0435\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u043C\u0441\u044F?"
+  _leftParametrsToChange: []
+  _newCardOnLeft: []
+  _cardsToDeleteLeft: []
+  _nextCardLeft: {fileID: 11400000, guid: 991500b0c07fb2246b776433df9204f6, type: 2}
+  _changeSpawnL: 0
+  _rightParametrsToChange: []
+  _newCardOnRight: []
+  _cardsToDeleteRight: []
+  _nextCardRight: {fileID: 11400000, guid: 56a76a96571fde6488803c265c24b35a, type: 2}
+  _changeSpawnR: 0
